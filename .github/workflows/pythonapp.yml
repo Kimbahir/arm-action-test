@@ -55,7 +55,7 @@ jobs:
       name: Run Buildx
       run: |
         docker buildx build \
-          --platform linux/arm64 \
+          --platform linux/arm/7 \
           --output "type=image,push=true" \
           --tag "kimbahir/arm-action-test:latest" \
           --file Dockerfile .
