@@ -43,7 +43,8 @@ jobs:
       run: | 
         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         echo 'building'
-        docker build . -t kimbahir/arm-action-test:latest
+#        docker build . -t kimbahir/arm-action-test:latest
+        docker buildx build --platform linux/arm64 -t kimbahir/arm-action-test:latest .
         echo 'pushing'
         docker push kimbahir/arm-action-test:latest
         echo 'done'
