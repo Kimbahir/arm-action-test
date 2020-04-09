@@ -38,10 +38,10 @@ jobs:
         pytest
     - name: build docker image 
       env:
-        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: | 
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         echo 'building'
         docker build . -t kimbahir/arm-action-test:latest
         echo 'pushing'
