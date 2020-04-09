@@ -36,14 +36,27 @@ jobs:
         pip install pytest
         export PYTHONPATH=src
         pytest
-    - name: build docker image 
-      env:
-        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: | 
-        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        echo 'building'
-        docker buildx build --platform linux/arm64 -t kimbahir/arm-action-test:latest .
-        echo 'pushing'
-        docker push kimbahir/arm-action-test:latest
-        echo 'done'
+    - name: Docker login
+        env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: | 
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    -
+      name: Set up Docker Buildx
+      id: buildx
+      uses: crazy-max/ghaction-docker-buildx@v1
+      with:
+        version: latest
+    -
+      name: Available platforms
+      run: echo ${{ steps.buildx.outputs.platforms }}
+    -
+      name: Run Buildx
+      run: |
+        docker buildx build \
+          --platform linux/arm64 \
+          --output "type=image,push=true" \
+          --tag "kimbahir/arm-action-test:latest" \
+          --file Dockerfile .
+    
