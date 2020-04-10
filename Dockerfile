@@ -6,4 +6,4 @@ COPY ./src ./src/
 RUN pip install -r requirements.txt
 ENTRYPOINT [ "python" ]
 CMD ["src/app.py"]
-EXPOSE 80
+EXPOSE 5000

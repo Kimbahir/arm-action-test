@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arm-action-test
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: arm-action-test
+  template:
+    metadata:
+      labels:
+        app: arm-action-test
+        keel.sh/trigger: poll
+        keel.sh/match-tag: "true"
+        keel.sh/policy: "force"
+      annotations:
+        keel.sh/pollSchedule: "@every 1m"
+    spec:
+      containers:
+      - name: arm-action-test
+        image: kimbahir/arm-action-test:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arm-action-test 
+  namespace: default
+spec:
+  ports:
+  - name: http
+    targetPort: 5000
+    port: 80
+  selector:
+    app: arm-action-test
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: arm-action-test
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+
+spec:
+  rules:
+  - host: arm-action-test.bahir.dk 
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: arm-action-test
+          servicePort: http
