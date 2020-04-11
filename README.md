@@ -16,4 +16,4 @@ The workflow is as follows:
   - Currently I have had some problems with the latest ARM build from keel.sh, so I used [reireias' build](https://hub.docker.com/r/reireias/keel-arm/tags)
 
 I am very happy with the result, as this is the first time I have managed to do a functional CI/CD pipeline
-(however crude it might be)
+(however crude it might be)Up
