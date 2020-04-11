@@ -3,8 +3,14 @@ kind: Deployment
 metadata:
   name: arm-action-test
   namespace: default
+  labels:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+  annotations:
+    keel.sh/pollSchedule: "@every 1m"
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: arm-action-test
@@ -12,15 +18,11 @@ spec:
     metadata:
       labels:
         app: arm-action-test
-        keel.sh/trigger: poll
-        keel.sh/match-tag: "true"
-        keel.sh/policy: "force"
-      annotations:
-        keel.sh/pollSchedule: "@every 1m"
     spec:
       containers:
       - name: arm-action-test
         image: kimbahir/arm-action-test:latest
+        imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service
