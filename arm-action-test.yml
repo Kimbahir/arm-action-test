@@ -23,6 +23,9 @@ spec:
       - name: arm-action-test
         image: kimbahir/arm-action-test:latest
         imagePullPolicy: Always
+        env:
+          - name: DEMO_ENV_VAR
+            value: "content of var"
 ---
 apiVersion: v1
 kind: Service
